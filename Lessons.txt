@@ -1,0 +1,4 @@
+#a = json.dumps(dictionary)  returns a stringified json
+json.loads(a)  will put the json string back to json dict format. 
+
+jinja templates -- powerful tool for inline processing using variables in html. 

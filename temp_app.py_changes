@@ -1,0 +1,31 @@
+
+    stacked_bar_dict = prepandas.prepanda_stacked_bar(medicines)
+    chart_line1_dict = prepandas.prepanda_out_of_pocket_avg_non_lowincome(medicines)
+    chart_line2_dict = prepandas.prepanda_out_of_pocket_avg_lowincome(medicines)
+    chart_line3_dict = prepandas.prepanda_total_spending(medicines)
+    chart_line4_dict = prepandas.prepanda_user_count(medicines)
+    chart_line5_dict = prepandas.prepanda_claim_count(medicines)
+
+    f1 = open("stacked_bar_dict.pkl",'wb')
+    pickle.dump(stacked_bar_dict,f1)
+    f1.close()
+
+    f2 = open("chart_line1_dict.pkl",'wb')
+    pickle.dump(chart_line1_dict,f2)
+    f2.close()
+       
+    f3= open("chart_line2_dict.pkl",'wb')
+    pickle.dump(chart_line2_dict,f3)
+    f3.close()
+
+    f4= open("chart_line3_dict.pkl",'wb')
+    pickle.dump(chart_line3_dict,f4)
+    f4.close()
+    
+    f5= open("chart_line4_dict.pkl",'wb')
+    pickle.dump(chart_line4_dict,f5)
+    f5.close()
+
+    f6= open("chart_line5_dict.pkl",'wb')
+    pickle.dump(chart_line5_dict,f6)
+    f6.close()

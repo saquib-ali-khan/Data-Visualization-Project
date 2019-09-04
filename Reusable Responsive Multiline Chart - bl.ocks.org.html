@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)http://bl.ocks.org/asielen/44ffca2877d0132572cb -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=1000">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@mbostock">
+<meta property="og:url" content="http://bl.ocks.org/asielen/44ffca2877d0132572cb">
+<meta property="og:title" content="Reusable Responsive Multiline Chart">
+<meta property="og:description" content="Andrew Sielen’s Block 44ffca2877d0132572cb">
+<meta property="og:image" content="http://bl.ocks.org/asielen/raw/44ffca2877d0132572cb/9c18f31f9ffbb402b070d88efc9a6381d57c0735/thumbnail.png">
+<title>Reusable Responsive Multiline Chart - bl.ocks.org</title>
+<link rel="icon" href="http://bl.ocks.org/favicon.png">
+<link rel="canonical" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb">
+<style>
+
+@import url("/style.css");
+
+</style>
+
+
+</head><body><header>
+  <div class="column">
+    <div class="navigation">
+      <a href="http://bl.ocks.org/">Popular</a>
+      / <a href="http://bl.ocks.org/-/about">About</a>
+    </div>
+    <a class="user" href="http://bl.ocks.org/asielen"><img class="avatar" src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/5422546" width="30" height="30">Andrew Sielen</a>’s
+    Block <a class="gist gist-id self" title="View Gist on GitHub." href="https://gist.github.com/asielen/44ffca2877d0132572cb">44ffca2877d0132572cb</a>    <div class="date">Updated January 16, 2019</div>
+  </div>
+</header>
+
+<div class="column">
+  <h1>Reusable Responsive Multiline Chart</h1>
+  <div class="index">
+    <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/saved_resource.html" marginwidth="0" marginheight="0" style="height:500px;" scrolling="no"></iframe>
+  </div>
+  <div class="index-pop">
+    <a target="_blank" title="Open Block 44ffca2877d0132572cb a new window." href="http://bl.ocks.org/asielen/raw/44ffca2877d0132572cb">Open<svg height="16" width="12"><path d="M11 10h1v3c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V3c0-0.55 0.45-1 1-1h3v1H1v10h10V10zM6 2l2.25 2.25-3.25 3.25 1.5 1.5 3.25-3.25 2.25 2.25V2H6z"></path></svg></a>
+  </div>
+  <div class="gist-readme" data-key="readme.md"><p>An implementation of a reusable responsive multiline chart. Based on the concept outlined in Mike Bostocks blog post <a href="http://bost.ocks.org/mike/chart/">Towards Reusable Charts</a>.</p>
+<p>Open in new window to see the chart scale.</p></div>
+  <div class="gist-sources">
+    <div class="gist-source" data-key="index.html">
+      <h2>index.html<a name="index.html" class="anchor" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb#index.html">#</a></h2>
+      <pre><code class="html hljs xml"><span class="meta">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span>
+<span class="tag">&lt;<span class="name">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"multiline.css"</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+    <span class="comment">&lt;!--&lt;script src="http://d3js.org/d3.v3.min.js" charset="utf-8"&gt;&lt;/script&gt;--&gt;</span>
+<span class="tag">&lt;/<span class="name">head</span>&gt;</span>
+<span class="tag">&lt;<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"chart-wrapper"</span> <span class="attr">id</span>=<span class="string">"chart-line1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+
+<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript">
+    d3.csv(<span class="string">'multiline_data.csv'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, data</span>) </span>{
+    data.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>{
+        d.year = +d.year;
+        d.variableA = +d.variableA;
+        d.variableB = +d.variableB;
+        d.variableC = +d.variableC;
+        d.variableD = +d.variableD;
+    });
+
+    <span class="keyword">var</span> chart = makeLineChart(data, <span class="string">'year'</span>, {
+        <span class="string">'Variable A'</span>: {<span class="attr">column</span>: <span class="string">'variableA'</span>},
+        <span class="string">'Variable B'</span>: {<span class="attr">column</span>: <span class="string">'variableB'</span>},
+        <span class="string">'Variable C'</span>: {<span class="attr">column</span>: <span class="string">'variableC'</span>},
+        <span class="string">'Variable D'</span>: {<span class="attr">column</span>: <span class="string">'variableD'</span>}
+    }, {<span class="attr">xAxis</span>: <span class="string">'Years'</span>, <span class="attr">yAxis</span>: <span class="string">'Amount'</span>});
+    chart.bind(<span class="string">"#chart-line1"</span>);
+    chart.render();
+
+});
+</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"multiline.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">html</span>&gt;</span></code></pre>
+    </div>
+    <div class="gist-source" data-key="multiline_data.csv">
+      <h2>multiline_data.csv<a name="multiline_data.csv" class="anchor" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb#multiline_data.csv">#</a></h2>
+      <pre><code class="csv hljs">year,variableA,variableB,variableC,variableD
+1980,70,52,145,75
+1981,77,51,156,80
+1982,81,55,169,79
+1983,78,55,171,91
+1984,80,55,187,102
+1985,79,53,199,103
+1986,79,54,204,102
+1987,78,53,218,104
+1988,75,51,232,105
+1989,78,48,233,106
+1990,76,51,233,112
+1991,73,55,232,111
+1992,70,52,240,122
+1993,69,50,256,122
+1994,74,50,273,131
+1995,71,51,286,128
+1996,71,53,283,129
+1997,76,51,292,126
+1998,81,49,298,132
+1999,80,53,313,142
+2000,77,59,321,152
+2001,82,63,338,162
+2002,88,67,337,171
+2003,90,69,338,177
+2004,90,75,338,183
+2005,92,80,351,180
+2006,93,87,367,188
+2007,91,91,375,186
+2008,90,96,374,195
+2009,97,97,385,207
+2010,104,101,401,206
+2011,111,106,403,205
+2012,115,105,417,204
+2013,117,108,420,211
+2014,121,107,436,217
+2015,121,104,449,216
+</code></pre>
+    </div>
+    <div class="gist-source" data-key="multiline.css">
+      <h2>multiline.css<a name="multiline.css" class="anchor" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb#multiline.css">#</a></h2>
+      <pre><code class="css hljs"><span class="selector-class">.chart-wrapper</span> {
+    <span class="attribute">max-width</span>: <span class="number">950px</span>;
+    <span class="attribute">min-width</span>: <span class="number">304px</span>;
+    <span class="attribute">margin</span>: <span class="number">0</span> auto;
+    <span class="attribute">background-color</span>: <span class="number">#FAF7F7</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.inner-wrapper</span> {
+    <span class="attribute">position</span>: relative;
+    <span class="attribute">padding-bottom</span>: <span class="number">50%</span>;
+    <span class="attribute">width</span>: <span class="number">100%</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.outer-box</span> {
+    <span class="attribute">position</span>: absolute;
+    <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">bottom</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">0</span>; <span class="attribute">right</span>: <span class="number">0</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.inner-box</span> {
+    <span class="attribute">width</span>: <span class="number">100%</span>;
+    <span class="attribute">height</span>: <span class="number">100%</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-tag">text</span> {
+  <span class="attribute">font-family</span>: sans-serif;
+  <span class="attribute">font-size</span>: <span class="number">11px</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-tag">p</span> {
+    <span class="attribute">font-size</span>: <span class="number">16px</span>;
+    <span class="attribute">margin-top</span>:<span class="number">5px</span>;
+    <span class="attribute">margin-bottom</span>: <span class="number">40px</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.axis</span> <span class="selector-tag">path</span>,
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.axis</span> <span class="selector-tag">line</span> {
+    <span class="attribute">fill</span>: none;
+    <span class="attribute">stroke</span>: <span class="number">#1F1F2E</span>;
+    <span class="attribute">stroke-opacity</span>: <span class="number">0.7</span>;
+    <span class="attribute">shape-rendering</span>: crispEdges;
+
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.axis</span> <span class="selector-tag">path</span> {
+  <span class="attribute">stroke-width</span>: <span class="number">2px</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.line</span> {
+  <span class="attribute">fill</span>: none;
+  <span class="attribute">stroke</span>: steelblue;
+  <span class="attribute">stroke-width</span>: <span class="number">5px</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.legend</span>  {
+    <span class="attribute">min-width</span>: <span class="number">200px</span>;
+    <span class="attribute">display</span>: flex;
+    <span class="attribute">justify-content</span>: flex-start;
+    <span class="attribute">flex-wrap</span>: wrap;
+    <span class="attribute">font-size</span>: <span class="number">16px</span>;
+    <span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">40px</span>;
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.legend</span> &gt; <span class="selector-tag">div</span> {
+    <span class="attribute">margin</span>: <span class="number">0px</span> <span class="number">25px</span> <span class="number">10px</span> <span class="number">0px</span>;
+    <span class="attribute">flex-grow</span>: <span class="number">0</span>;
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.legend</span> <span class="selector-tag">p</span> {
+    <span class="attribute">display</span>:inline;
+    <span class="attribute">font-size</span>: <span class="number">0.8em</span>;
+    <span class="attribute">font-family</span>: sans-serif;
+    <span class="attribute">font-weight</span>: <span class="number">600</span>;
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.legend</span> <span class="selector-class">.series-marker</span> {
+    <span class="attribute">height</span>: <span class="number">1em</span>;
+    <span class="attribute">width</span>: <span class="number">1em</span>;
+    <span class="attribute">border-radius</span>: <span class="number">35%</span>;
+    <span class="attribute">background-color</span>: crimson;
+    <span class="attribute">display</span>: inline-block;
+    <span class="attribute">margin-right</span>: <span class="number">4px</span>;
+    <span class="attribute">margin-bottom</span>: -<span class="number">0.16rem</span>;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.overlay</span> {
+  <span class="attribute">fill</span>: none;
+  <span class="attribute">pointer-events</span>: all;
+}
+
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.focus</span> <span class="selector-tag">circle</span> {
+  <span class="attribute">fill</span>: crimson;
+  <span class="attribute">stroke</span>: crimson;
+  <span class="attribute">stroke-width</span>: <span class="number">2px</span>;
+  <span class="attribute">fill-opacity</span>: <span class="number">15%</span>;
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.focus</span> <span class="selector-tag">rect</span> {
+    <span class="attribute">fill</span>: lightblue;
+    <span class="attribute">opacity</span>: <span class="number">0.4</span>;
+    <span class="attribute">border-radius</span>: <span class="number">2px</span>;
+}
+<span class="selector-class">.chart-wrapper</span> <span class="selector-class">.focus</span><span class="selector-class">.line</span> {
+    <span class="attribute">stroke</span>: steelblue;
+    <span class="attribute">stroke-dasharray</span>: <span class="number">2</span>,<span class="number">5</span>;
+    <span class="attribute">stroke-width</span>: <span class="number">2</span>;
+    <span class="attribute">opacity</span>: <span class="number">0.5</span>;
+}
+@<span class="keyword">media</span> (max-width:<span class="number">500px</span>){
+    <span class="selector-class">.chart-wrapper</span> <span class="selector-class">.line</span> {<span class="attribute">stroke-width</span>: <span class="number">3px</span>;}
+    <span class="selector-class">.chart-wrapper</span> <span class="selector-class">.legend</span> {<span class="attribute">font-size</span>: <span class="number">14px</span>;}
+}</code></pre>
+    </div>
+    <div class="gist-source" data-key="multiline.js">
+      <h2>multiline.js<a name="multiline.js" class="anchor" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb#multiline.js">#</a></h2>
+      <pre><code class="javascript hljs"><span class="function"><span class="keyword">function</span> <span class="title">makeLineChart</span>(<span class="params">dataset, xName, yObjs, axisLables</span>) </span>{
+    <span class="keyword">var</span> chartObj = {};
+    <span class="keyword">var</span> color = d3.scale.category10();
+    chartObj.xAxisLable = axisLables.xAxis;
+    chartObj.yAxisLable = axisLables.yAxis;
+    <span class="comment">/*
+     yObjsects format:
+     {y1:{column:'',name:'name',color:'color'},y2}
+     */</span>
+
+    chartObj.data = dataset;
+    chartObj.margin = {<span class="attr">top</span>: <span class="number">15</span>, <span class="attr">right</span>: <span class="number">60</span>, <span class="attr">bottom</span>: <span class="number">30</span>, <span class="attr">left</span>: <span class="number">50</span>};
+    chartObj.width = <span class="number">650</span> - chartObj.margin.left - chartObj.margin.right;
+    chartObj.height = <span class="number">480</span> - chartObj.margin.top - chartObj.margin.bottom;
+
+<span class="comment">// So we can pass the x and y as strings when creating the function</span>
+    chartObj.xFunct = <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>{<span class="keyword">return</span> d[xName]};
+
+<span class="comment">// For each yObjs argument, create a yFunction</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">getYFn</span>(<span class="params">column</span>) </span>{
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>{
+            <span class="keyword">return</span> d[column];
+        };
+    }
+
+<span class="comment">// Object instead of array</span>
+    chartObj.yFuncts = [];
+    <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+        yObjs[y].name = y;
+        yObjs[y].yFunct = getYFn(yObjs[y].column); <span class="comment">//Need this  list for the ymax function</span>
+        chartObj.yFuncts.push(yObjs[y].yFunct);
+    }
+
+<span class="comment">//Formatter functions for the axes</span>
+    chartObj.formatAsNumber = d3.format(<span class="string">".0f"</span>);
+    chartObj.formatAsDecimal = d3.format(<span class="string">".2f"</span>);
+    chartObj.formatAsCurrency = d3.format(<span class="string">"$.2f"</span>);
+    chartObj.formatAsFloat = <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>{
+        <span class="keyword">if</span> (d % <span class="number">1</span> !== <span class="number">0</span>) {
+            <span class="keyword">return</span> d3.format(<span class="string">".2f"</span>)(d);
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> d3.format(<span class="string">".0f"</span>)(d);
+        }
+        
+    };
+
+    chartObj.xFormatter = chartObj.formatAsNumber;
+    chartObj.yFormatter = chartObj.formatAsFloat;
+
+    chartObj.bisectYear = d3.bisector(chartObj.xFunct).left; <span class="comment">//&lt; Can be overridden in definition</span>
+
+<span class="comment">//Create scale functions</span>
+    chartObj.xScale = d3.scale.linear().range([<span class="number">0</span>, chartObj.width]).domain(d3.extent(chartObj.data, chartObj.xFunct)); <span class="comment">//&lt; Can be overridden in definition</span>
+
+<span class="comment">// Get the max of every yFunct</span>
+    chartObj.max = <span class="function"><span class="keyword">function</span> (<span class="params">fn</span>) </span>{
+        <span class="keyword">return</span> d3.max(chartObj.data, fn);
+    };
+    chartObj.yScale = d3.scale.linear().range([chartObj.height, <span class="number">0</span>]).domain([<span class="number">0</span>, d3.max(chartObj.yFuncts.map(chartObj.max))]);
+
+    chartObj.formatAsYear = d3.format(<span class="string">""</span>);
+
+<span class="comment">//Create axis</span>
+    chartObj.xAxis = d3.svg.axis().scale(chartObj.xScale).orient(<span class="string">"bottom"</span>).tickFormat(chartObj.xFormatter); <span class="comment">//&lt; Can be overridden in definition</span>
+
+    chartObj.yAxis = d3.svg.axis().scale(chartObj.yScale).orient(<span class="string">"left"</span>).tickFormat(chartObj.yFormatter); <span class="comment">//&lt; Can be overridden in definition</span>
+
+
+<span class="comment">// Build line building functions</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">getYScaleFn</span>(<span class="params">yObj</span>) </span>{
+        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>{
+            <span class="keyword">return</span> chartObj.yScale(yObjs[yObj].yFunct(d));
+        };
+    }
+    <span class="keyword">for</span> (<span class="keyword">var</span> yObj <span class="keyword">in</span> yObjs) {
+        yObjs[yObj].line = d3.svg.line().interpolate(<span class="string">"cardinal"</span>).x(<span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>{
+            <span class="keyword">return</span> chartObj.xScale(chartObj.xFunct(d));
+        }).y(getYScaleFn(yObj));
+    }
+    
+
+    chartObj.svg;
+
+<span class="comment">// Change chart size according to window size</span>
+    chartObj.update_svg_size = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        chartObj.width = <span class="built_in">parseInt</span>(chartObj.chartDiv.style(<span class="string">"width"</span>), <span class="number">10</span>) - (chartObj.margin.left + chartObj.margin.right);
+
+        chartObj.height = <span class="built_in">parseInt</span>(chartObj.chartDiv.style(<span class="string">"height"</span>), <span class="number">10</span>) - (chartObj.margin.top + chartObj.margin.bottom);
+
+        <span class="comment">/* Update the range of the scale with new width/height */</span>
+        chartObj.xScale.range([<span class="number">0</span>, chartObj.width]);
+        chartObj.yScale.range([chartObj.height, <span class="number">0</span>]);
+
+        <span class="keyword">if</span> (!chartObj.svg) {<span class="keyword">return</span> <span class="literal">false</span>;}
+
+        <span class="comment">/* Else Update the axis with the new scale */</span>
+        chartObj.svg.select(<span class="string">'.x.axis'</span>).attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + chartObj.height + <span class="string">")"</span>).call(chartObj.xAxis);
+        chartObj.svg.select(<span class="string">'.x.axis .label'</span>).attr(<span class="string">"x"</span>, chartObj.width / <span class="number">2</span>);
+
+        chartObj.svg.select(<span class="string">'.y.axis'</span>).call(chartObj.yAxis);
+        chartObj.svg.select(<span class="string">'.y.axis .label'</span>).attr(<span class="string">"x"</span>, -chartObj.height / <span class="number">2</span>);
+
+        <span class="comment">/* Force D3 to recalculate and update the line */</span>
+        <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+            yObjs[y].path.attr(<span class="string">"d"</span>, yObjs[y].line);
+        }
+        
+
+        d3.selectAll(<span class="string">".focus.line"</span>).attr(<span class="string">"y2"</span>, chartObj.height);
+
+        chartObj.chartDiv.select(<span class="string">'svg'</span>).attr(<span class="string">"width"</span>, chartObj.width + (chartObj.margin.left + chartObj.margin.right)).attr(<span class="string">"height"</span>, chartObj.height + (chartObj.margin.top + chartObj.margin.bottom));
+
+        chartObj.svg.select(<span class="string">".overlay"</span>).attr(<span class="string">"width"</span>, chartObj.width).attr(<span class="string">"height"</span>, chartObj.height);
+        <span class="keyword">return</span> chartObj;
+    };
+
+    chartObj.bind = <span class="function"><span class="keyword">function</span> (<span class="params">selector</span>) </span>{
+        chartObj.mainDiv = d3.select(selector);
+        <span class="comment">// Add all the divs to make it centered and responsive</span>
+        chartObj.mainDiv.append(<span class="string">"div"</span>).attr(<span class="string">"class"</span>, <span class="string">"inner-wrapper"</span>).append(<span class="string">"div"</span>).attr(<span class="string">"class"</span>, <span class="string">"outer-box"</span>).append(<span class="string">"div"</span>).attr(<span class="string">"class"</span>, <span class="string">"inner-box"</span>);
+        chartSelector = selector + <span class="string">" .inner-box"</span>;
+        chartObj.chartDiv = d3.select(chartSelector);
+        d3.select(<span class="built_in">window</span>).on(<span class="string">'resize.'</span> + chartSelector, chartObj.update_svg_size);
+        chartObj.update_svg_size();
+        <span class="keyword">return</span> chartObj;
+    };
+
+<span class="comment">// Render the chart</span>
+    chartObj.render = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="comment">//Create SVG element</span>
+        chartObj.svg = chartObj.chartDiv.append(<span class="string">"svg"</span>).attr(<span class="string">"class"</span>, <span class="string">"chart-area"</span>).attr(<span class="string">"width"</span>, chartObj.width + (chartObj.margin.left + chartObj.margin.right)).attr(<span class="string">"height"</span>, chartObj.height + (chartObj.margin.top + chartObj.margin.bottom)).append(<span class="string">"g"</span>).attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + chartObj.margin.left + <span class="string">","</span> + chartObj.margin.top + <span class="string">")"</span>);
+
+        <span class="comment">// Draw Lines</span>
+        <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+            yObjs[y].path = chartObj.svg.append(<span class="string">"path"</span>).datum(chartObj.data).attr(<span class="string">"class"</span>, <span class="string">"line"</span>).attr(<span class="string">"d"</span>, yObjs[y].line).style(<span class="string">"stroke"</span>, color(y)).attr(<span class="string">"data-series"</span>, y).on(<span class="string">"mouseover"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+                focus.style(<span class="string">"display"</span>, <span class="literal">null</span>);
+            }).on(<span class="string">"mouseout"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+                focus.transition().delay(<span class="number">700</span>).style(<span class="string">"display"</span>, <span class="string">"none"</span>);
+            }).on(<span class="string">"mousemove"</span>, mousemove);
+        }
+        
+
+        <span class="comment">// Draw Axis</span>
+        chartObj.svg.append(<span class="string">"g"</span>).attr(<span class="string">"class"</span>, <span class="string">"x axis"</span>).attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + chartObj.height + <span class="string">")"</span>).call(chartObj.xAxis).append(<span class="string">"text"</span>).attr(<span class="string">"class"</span>, <span class="string">"label"</span>).attr(<span class="string">"x"</span>, chartObj.width / <span class="number">2</span>).attr(<span class="string">"y"</span>, <span class="number">30</span>).style(<span class="string">"text-anchor"</span>, <span class="string">"middle"</span>).text(chartObj.xAxisLable);
+
+        chartObj.svg.append(<span class="string">"g"</span>).attr(<span class="string">"class"</span>, <span class="string">"y axis"</span>).call(chartObj.yAxis).append(<span class="string">"text"</span>).attr(<span class="string">"class"</span>, <span class="string">"label"</span>).attr(<span class="string">"transform"</span>, <span class="string">"rotate(-90)"</span>).attr(<span class="string">"y"</span>, <span class="number">-42</span>).attr(<span class="string">"x"</span>, -chartObj.height / <span class="number">2</span>).attr(<span class="string">"dy"</span>, <span class="string">".71em"</span>).style(<span class="string">"text-anchor"</span>, <span class="string">"middle"</span>).text(chartObj.yAxisLable);
+
+        <span class="comment">//Draw tooltips</span>
+        <span class="keyword">var</span> focus = chartObj.svg.append(<span class="string">"g"</span>).attr(<span class="string">"class"</span>, <span class="string">"focus"</span>).style(<span class="string">"display"</span>, <span class="string">"none"</span>);
+
+        <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+            yObjs[y].tooltip = focus.append(<span class="string">"g"</span>);
+            yObjs[y].tooltip.append(<span class="string">"circle"</span>).attr(<span class="string">"r"</span>, <span class="number">5</span>);
+            yObjs[y].tooltip.append(<span class="string">"rect"</span>).attr(<span class="string">"x"</span>, <span class="number">8</span>).attr(<span class="string">"y"</span>,<span class="string">"-5"</span>).attr(<span class="string">"width"</span>,<span class="number">22</span>).attr(<span class="string">"height"</span>,<span class="string">'0.75em'</span>);
+            yObjs[y].tooltip.append(<span class="string">"text"</span>).attr(<span class="string">"x"</span>, <span class="number">9</span>).attr(<span class="string">"dy"</span>, <span class="string">".35em"</span>);
+        }
+
+        <span class="comment">// Year label</span>
+        focus.append(<span class="string">"text"</span>).attr(<span class="string">"class"</span>, <span class="string">"focus year"</span>).attr(<span class="string">"x"</span>, <span class="number">9</span>).attr(<span class="string">"y"</span>, <span class="number">7</span>);
+        <span class="comment">// Focus line</span>
+        focus.append(<span class="string">"line"</span>).attr(<span class="string">"class"</span>, <span class="string">"focus line"</span>).attr(<span class="string">"y1"</span>, <span class="number">0</span>).attr(<span class="string">"y2"</span>, chartObj.height);
+
+        <span class="comment">//Draw legend</span>
+        <span class="keyword">var</span> legend = chartObj.mainDiv.append(<span class="string">'div'</span>).attr(<span class="string">"class"</span>, <span class="string">"legend"</span>);
+        <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+            series = legend.append(<span class="string">'div'</span>);
+            series.append(<span class="string">'div'</span>).attr(<span class="string">"class"</span>, <span class="string">"series-marker"</span>).style(<span class="string">"background-color"</span>, color(y));
+            series.append(<span class="string">'p'</span>).text(y);
+            yObjs[y].legend = series;
+        }
+
+        <span class="comment">// Overlay to capture hover</span>
+        chartObj.svg.append(<span class="string">"rect"</span>).attr(<span class="string">"class"</span>, <span class="string">"overlay"</span>).attr(<span class="string">"width"</span>, chartObj.width).attr(<span class="string">"height"</span>, chartObj.height).on(<span class="string">"mouseover"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+            focus.style(<span class="string">"display"</span>, <span class="literal">null</span>);
+        }).on(<span class="string">"mouseout"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+            focus.style(<span class="string">"display"</span>, <span class="string">"none"</span>);
+        }).on(<span class="string">"mousemove"</span>, mousemove);
+
+        <span class="keyword">return</span> chartObj;
+        <span class="function"><span class="keyword">function</span> <span class="title">mousemove</span>(<span class="params"></span>) </span>{
+            <span class="keyword">var</span> x0 = chartObj.xScale.invert(d3.mouse(<span class="keyword">this</span>)[<span class="number">0</span>]), i = chartObj.bisectYear(dataset, x0, <span class="number">1</span>), d0 = chartObj.data[i - <span class="number">1</span>], d1 = chartObj.data[i];
+            <span class="keyword">try</span> {
+                <span class="keyword">var</span> d = x0 - chartObj.xFunct(d0) &gt; chartObj.xFunct(d1) - x0 ? d1 : d0;
+            } <span class="keyword">catch</span> (e) { <span class="keyword">return</span>;}
+            minY = chartObj.height;
+            <span class="keyword">for</span> (<span class="keyword">var</span> y  <span class="keyword">in</span> yObjs) {
+                yObjs[y].tooltip.attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + chartObj.xScale(chartObj.xFunct(d)) + <span class="string">","</span> + chartObj.yScale(yObjs[y].yFunct(d)) + <span class="string">")"</span>);
+                yObjs[y].tooltip.select(<span class="string">"text"</span>).text(chartObj.yFormatter(yObjs[y].yFunct(d)));
+                minY = <span class="built_in">Math</span>.min(minY, chartObj.yScale(yObjs[y].yFunct(d)));
+            }
+
+            focus.select(<span class="string">".focus.line"</span>).attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + chartObj.xScale(chartObj.xFunct(d)) + <span class="string">")"</span>).attr(<span class="string">"y1"</span>, minY);
+            focus.select(<span class="string">".focus.year"</span>).text(<span class="string">"Year: "</span> + chartObj.xFormatter(chartObj.xFunct(d)));
+        }
+
+    };
+    <span class="keyword">return</span> chartObj;
+}
+</code></pre>
+    </div>
+  </div>
+  <div class="gist-license">
+    <h2>LICENSE<a name="license" class="anchor" href="http://bl.ocks.org/asielen/44ffca2877d0132572cb#license">#</a></h2>
+    This block appears to have <a target="_blank" href="http://choosealicense.com/no-license/">no license</a>. Please contact <a target="_blank" href="https://github.com/asielen">the author</a> to request a license.
+  </div>
+</div>
+
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/d3-array.min.js" integrity="sha384-c+16cUIc0b/tqEZ9mRvDfI/r1Dg1Yq3JpWgZFW4mjN2QU7XXFWVB90PDFlV8SIAm" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/d3-collection.min.js" integrity="sha384-H/Didu3qLpyrVmUqlvWapaxyhCzc+anaMa9uw+CHWHu+GNfClr91w8QgiLFIp7/V" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/d3-dispatch.min.js" integrity="sha384-dGRK/lIqGrmmAoVA9K4pwKI4YL4BxIpaGa1dwU6lcRdpp5OJR6FoMZqxqzvCzFBS" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/d3-request.min.js" integrity="sha384-xsZEl8WRzIEBs+gkv/88ttcv7hmGnFJX8t8k6V+fZcrG2y5o1SXsCRLzl2S9HkFU" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/d3-selection.min.js" integrity="sha384-AOxWgfcHKw/K6u7UX8IJ4vy418+zXnA6wB6P4/sobPFG0mM34UlLPHELGvI+aEX5" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/showdown.min.js" integrity="sha384-Mcx6WhltjdlkIwTWetAJIBNgD0lLtUcl//A7Ksp/vmVZVD2rzQ949wtmoehrDJd/" crossorigin="anonymous"></script>
+<script src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+<script>
+
+hljs.configure({classPrefix: ""});
+showdown.setFlavor("github");
+
+var gist = {"public":true,"protocol":"http","sha":"9c18f31f9ffbb402b070d88efc9a6381d57c0735","files":{"index.html":{"language":"HTML","type":"text/html","filename":"index.html","size":1071,"sha":"e4adbeedfb321a51905bee65fc543dfeb8ed9629"},"multiline.css":{"language":"CSS","type":"text/css","filename":"multiline.css","size":1917,"sha":"8fa7231d39e116a5a9d2a17159525ef82ea67751"},"multiline.js":{"language":"JavaScript","type":"application/javascript","filename":"multiline.js","size":8833,"sha":"9d32ea3c6785dd62057eec49beea10d3cc0b6052"},"multiline_data.csv":{"language":"CSV","type":"text/csv","filename":"multiline_data.csv","size":737,"sha":"a99f65cee986586d36dfa5fa1a8182dfcc858fb7"},"readme.md":{"language":"Markdown","type":"text/plain","filename":"readme.md","size":221,"sha":"bb8e3284051dd1727fb49e3521dd3f87b781d16c"},"thumbnail.png":{"language":null,"type":"image/png","filename":"thumbnail.png","size":14672,"sha":"2e0a23b7c3cf0ec74b457d29fb328d71b142e77a"}},"created_at":"2015-09-10T07:10:30Z","updated_at":"2019-01-16T20:24:56Z","description":"Reusable Responsive Multiline Chart","owner":{"login":"asielen"},"id":"44ffca2877d0132572cb"};
+
+var files = d3.values(gist.files);
+
+d3.select(".gist-readme")
+  .data(files, function(d) { return d ? d.filename : this.getAttribute("data-key"); })
+    .each(function(d) {
+      var readme = d3.select(this);
+      d3.text("/asielen/raw/44ffca2877d0132572cb/9c18f31f9ffbb402b070d88efc9a6381d57c0735/" + d.filename, function(error, content) {
+        if (error) content = "Sorry, an error occurred.";
+        readme.html(new showdown.Converter().makeHtml(content));
+        readme.selectAll("code").each(function() { hljs.highlightBlock(this); });
+      });
+    });
+
+d3.selectAll(".gist-source")
+  .data(files, function(d) { return d ? d.filename : this.getAttribute("data-key"); })
+  .select("code")
+    .attr("class", function(d) { return d.language && (d.language === "JSON" ? "javascript" : d.language.toLowerCase()); })
+    .each(function(d) {
+      var code = d3.select(this);
+      d3.text("/asielen/raw/44ffca2877d0132572cb/9c18f31f9ffbb402b070d88efc9a6381d57c0735/" + (d.filename === "index.html" ? "" : d.filename), function(error, content) {
+        if (error) content = "Sorry, an error occurred.";
+        code.text(content);
+        hljs.highlightBlock(code.node());
+      });
+    });
+
+</script>
+
+<script>
+
+GoogleAnalyticsObject = "ga", ga = function() { ga.q.push(arguments); }, ga.q = [], ga.l = +new Date;
+ga("create", "UA-48272912-1", "auto");
+ga("send", "pageview");
+
+</script>
+<script async="" src="./Reusable Responsive Multiline Chart - bl.ocks.org_files/analytics.js"></script>
+</body></html>

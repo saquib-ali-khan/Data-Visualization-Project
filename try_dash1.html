@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <link rel="stylesheet" href="donut.css">
+ <!-- ------------------------------------------------------------------------ -->
+        <!-- Taken from index.html in admin.lte -->
+        <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+
+ <!-- ------------------------------------------------------------------------ -->
+
+
+<style>
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    .bar {
+            fill: orange;
+        }
+
+    .highlight {
+            fill: steelblue;
+        }
+
+.grid {
+    display: grid;
+    grid-template-columns: 280px auto 280px;
+    grid-template-rows: repeat(7, 380px);
+    grid-gap: 1em;
+  }
+
+
+  .svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    Height:100%;
+    padding-bottom: 70%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-content-responsive {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    Height: 100%;
+    overflow:scroll;
+    top: 00px;
+    left: 00px;
+}
+
+
+  header,
+  aside,
+  article,
+  footer {
+    background: #eaeaea;
+    padding: 1em;
+  }
+
+
+#barAre {
+position: relative;
+}
+
+header, footer, #first_sec {
+    grid-column: 1 / 4;    
+  }
+
+  /* Demo Specific Styles */
+  body {
+    margin: 0 auto;
+    max-width: 70em;
+    padding: 1em 0;
+  }
+
+  .grid > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+</head>
+
+<body>
+
+    
+        <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-aqua">
+                    <div class="inner">
+                      <h3>150</h3>
+        
+                      <p>Av. Spending/Year</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-green">
+                    <div class="inner">
+                      <h3>53<sup style="font-size: 20px">%</sup></h3>
+        
+                      <p>Average Lobby Amount</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-yellow">
+                    <div class="inner">
+                      <h3>44</h3>
+        
+                      <p>User Count</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-red">
+                    <div class="inner">
+                      <h3>65</h3>
+        
+                      <p>No. of Medicines</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+              </div>
+
+        <button  id="we" onclick="onclick_donut()">Donut</button>
+        <button  id="we" onclick="onclick_bar()">bar</button>
+
+        <div id = "head">
+                <h3 style="position:relative; top: 0px; left:370px;">Medicare Spending</h3>
+        </div>
+
+
+
+
+<div class="grid" >
+    <div id = "first_sec">   
+
+        <div id ="barAre" style="position:relative; width:100%; height:80%;"></div>
+        
+    </div>
+    <!-- <div id ="barAre"></div> -->
+    
+    <header>
+      header
+    </header>
+  
+    <aside class="sidebar-left">
+      Left Sidebar
+    </aside>
+  
+    <article>
+      Article
+    </article>
+  
+    <aside class="sidebar-right">
+      Right Sidebar
+    </aside>
+
+      <footer>
+        Footer1
+      </footer>
+
+      <footer>
+        Footer2
+      </footer>
+
+      <footer>
+        Footer3
+      </footer>
+
+      <footer>
+        Footer4
+      </footer>
+
+      <footer>
+        Footer5
+      </footer>
+
+</div>
+    <script> var data = {{ data.chart_data }};
+        </script>
+<script src = bar.js ></script>
+<script src = donut.js ></script>
+
+</body>
+
+</html>
